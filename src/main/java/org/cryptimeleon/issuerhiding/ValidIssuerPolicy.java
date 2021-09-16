@@ -22,8 +22,8 @@ public class ValidIssuerPolicy implements Representable {
 
     public ValidIssuerPolicy(Representation repr, SPSGroth15SignatureScheme groth1, SPSGroth15SignatureScheme groth2) {
         this.U = groth2.restoreVerificationKey(repr.obj().get("U"));
-        this.validIssuers = new Vector<Representation>(repr.obj().get("validIssuers").list()).map(groth1::restoreVerificationKey);
-        this.issuerCertificates = new Vector<Representation>(repr.obj().get("issuerCertificates").list()).map(groth2::restoreSignature);
+        this.validIssuers = new Vector<Representation>(repr.obj().get("validIssuers").list().getArray()).map(groth1::restoreVerificationKey);
+        this.issuerCertificates = new Vector<Representation>(repr.obj().get("issuerCertificates").list().getArray()).map(groth2::restoreSignature);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class ValidIssuerPolicy implements Representable {
         repr.put("U", U.getRepresentation());
         repr.put("validIssuers", new ListRepresentation(validIssuers.map(Representable::getRepresentation)));
         repr.put("issuerCertificates", new ListRepresentation(issuerCertificates.map(Representable::getRepresentation)));
-        return null;
+        return repr;
     }
 }

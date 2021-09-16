@@ -55,7 +55,7 @@ public class CredentialShowProtocol extends SendThenDelegateProtocol {
         //Blind credential
         GroupElement Rtilde = ((CredentialShowSecretInput) secretInput).credential.getGroupElementSigma1HatR().pow(rCred);
         GroupElement Sprime = ((CredentialShowSecretInput) secretInput).credential.getGroupElementSigma2S().pow(rCred.inv().mul(alpha.inv())).compute();
-        GroupElement Tprime = ((CredentialShowSecretInput) secretInput).credential.getGroupElementSigma3Ti()[0].pow(rCred.inv().mul(beta.inv())).compute();
+        GroupElement Tprime = ((CredentialShowSecretInput) secretInput).credential.getGroupElementSigma3Ti().get(0).pow(rCred.inv().mul(beta.inv())).compute();
 
         //Blind issuer's public key
         GroupElement ipkjPrime = ((CredentialShowSecretInput) secretInput).issuerKey.getGroupElementV().pow(gamma.inv()).compute();
@@ -63,7 +63,7 @@ public class CredentialShowProtocol extends SendThenDelegateProtocol {
         //Blind signature on issuer's public key
         GroupElement Rj = ((CredentialShowSecretInput) secretInput).issuerCertificate.getGroupElementSigma1HatR().pow(rPol).compute();
         GroupElement SjTilde = ((CredentialShowSecretInput) secretInput).issuerCertificate.getGroupElementSigma2S().pow(rPol.inv()).compute();
-        GroupElement TjTilde = ((CredentialShowSecretInput) secretInput).issuerCertificate.getGroupElementSigma3Ti()[0].pow(rPol.inv().mul(delta.inv())).compute();
+        GroupElement TjTilde = ((CredentialShowSecretInput) secretInput).issuerCertificate.getGroupElementSigma3Ti().get(0).pow(rPol.inv().mul(delta.inv())).compute();
 
         //Send blinded values
         builder.setSendFirstValue(new CredentialShowSendFirstValue(Rtilde, Sprime, Tprime, ipkjPrime, Rj, SjTilde, TjTilde));
@@ -113,14 +113,14 @@ public class CredentialShowProtocol extends SendThenDelegateProtocol {
 
         builder.addSubprotocol("groth1", new LinearStatementFragment(
                 e.applyExpr(sfv.Sprime.pow(alpha), sfv.Rtilde)
-                        .isEqualTo(e.applyExpr(system.getGroth1().getPp().getGroupElementsYi()[0], system.getGroth1().getPp().getOtherGroupGenerator()).op(
+                        .isEqualTo(e.applyExpr(system.getGroth1().getPp().getGroupElementsYi().get(0), system.getGroth1().getPp().getOtherGroupGenerator()).op(
                                 e.applyExpr(system.getGroth1().getPp().getPlaintextGroupGenerator().pow(gamma), sfv.ipkjPrime)
                         ))
         ));
 
         builder.addSubprotocol("groth1Message", new LinearStatementFragment(
                 e.applyExpr(sfv.Tprime.pow(beta), sfv.Rtilde).isEqualTo(
-                        e.applyExpr(system.getGroth1().getPp().getGroupElementsYi()[0].pow(gamma), sfv.ipkjPrime).op(
+                        e.applyExpr(system.getGroth1().getPp().getGroupElementsYi().get(0).pow(gamma), sfv.ipkjPrime).op(
                                 e.applyExpr(system.getPedersenHashBases().expr().innerProduct(attributeVector), system.getGroth1().getPp().getOtherGroupGenerator())
                         )
                 )
@@ -130,7 +130,7 @@ public class CredentialShowProtocol extends SendThenDelegateProtocol {
 
         builder.addSubprotocol("groth2Message", new LinearStatementFragment(
                 e.applyExpr(sfv.Rj.pow(delta), sfv.TjTilde).isEqualTo(
-                        e.applyExpr(common.policy.U.getGroupElementV(), system.getGroth2().getPp().getGroupElementsYi()[0]).op(
+                        e.applyExpr(common.policy.U.getGroupElementV(), system.getGroth2().getPp().getGroupElementsYi().get(0)).op(
                                 e.applyExpr(system.getGroth2().getPp().getOtherGroupGenerator().pow(gamma), sfv.ipkjPrime)
                         )
                 )
@@ -144,7 +144,7 @@ public class CredentialShowProtocol extends SendThenDelegateProtocol {
         CredentialShowSendFirstValue sendFirstValue1 = (CredentialShowSendFirstValue) sendFirstValue;
         CredentialShowCommonInput commonInput1 = (CredentialShowCommonInput) commonInput;
         return e.applyExpr(sendFirstValue1.Rj, sendFirstValue1.SjTilde).isEqualTo(
-                e.applyExpr(system.getGroth2().getPp().getOtherGroupGenerator(), system.getGroth2().getPp().getGroupElementsYi()[0])
+                e.applyExpr(system.getGroth2().getPp().getOtherGroupGenerator(), system.getGroth2().getPp().getGroupElementsYi().get(0))
                         .op(e.applyExpr(commonInput1.policy.U.getGroupElementV(), system.getGroth2().getPp().getPlaintextGroupGenerator()))
         ); //TODO these values can be precomputed
     }
