@@ -1,3 +1,5 @@
 rootProject.name = 'issuer-hiding-cred'
 
 includeBuild('../craco')
+includeBuild('../math')
+includeBuild('../mclwrap')

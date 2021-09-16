@@ -8,16 +8,21 @@ import org.cryptimeleon.issuerhiding.CredentialShowProtocol;
 import org.cryptimeleon.issuerhiding.CredentialSystem;
 import org.cryptimeleon.issuerhiding.ValidIssuerPolicy;
 import org.cryptimeleon.math.structures.cartesian.Vector;
+import org.cryptimeleon.math.structures.groups.debug.DebugBilinearGroup;
 import org.cryptimeleon.math.structures.groups.elliptic.BilinearGroup;
+import org.cryptimeleon.math.structures.groups.elliptic.type3.bn.BarretoNaehrigBasicBilinearGroup;
+import org.cryptimeleon.math.structures.groups.elliptic.type3.bn.BarretoNaehrigBilinearGroup;
 import org.cryptimeleon.math.structures.rings.cartesian.RingElementVector;
 import org.cryptimeleon.mclwrap.bn254.MclBilinearGroup;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestCodeTest {
+public class CredentialTest {
     @Test
     public void test() {
+        //BilinearGroup bilinearGroup = new BarretoNaehrigBilinearGroup(128);
+        //BilinearGroup bilinearGroup = new DebugBilinearGroup(BilinearGroup.Type.TYPE_3);
         BilinearGroup bilinearGroup = new MclBilinearGroup();
         int attributeVectorLength = 5;
         CredentialSystem system = CredentialSystem.parGen(bilinearGroup, attributeVectorLength);

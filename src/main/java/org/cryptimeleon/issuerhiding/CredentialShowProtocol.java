@@ -131,7 +131,7 @@ public class CredentialShowProtocol extends SendThenDelegateProtocol {
         builder.addSubprotocol("groth2Message", new LinearStatementFragment(
                 e.applyExpr(sfv.Rj.pow(delta), sfv.TjTilde).isEqualTo(
                         e.applyExpr(common.policy.U.getGroupElementV(), system.getGroth2().getPp().getGroupElementsYi()[0]).op(
-                                e.applyExpr(system.getGroth1().getPp().getOtherGroupGenerator().pow(gamma), sfv.ipkjPrime)
+                                e.applyExpr(system.getGroth2().getPp().getOtherGroupGenerator().pow(gamma), sfv.ipkjPrime)
                         )
                 )
         ));
