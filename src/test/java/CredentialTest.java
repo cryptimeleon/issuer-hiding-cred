@@ -141,7 +141,6 @@ public class CredentialTest {
         bilinearGroup.setBucket("Present");
         FiatShamirProof proof = null;
         Representation proofRepr = null;
-        measureTime(null);
         CredentialShowNoninteractive proofSystem = new CredentialShowNoninteractive(system);
         proof = proofSystem.createProof(new CredentialShowProtocol.CredentialShowCommonInput(policy),
                 new CredentialShowProtocol.CredentialShowSecretInput(credential, attributes, issuerKeys.get(0).getVerificationKey(), policy.issuerCertificates.get(0)));
