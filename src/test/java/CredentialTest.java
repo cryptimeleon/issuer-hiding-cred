@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CredentialTest {
     static long timerStart = -1;
-    static int testIterations = 100;
-    static int numberIssuers = 100;
+    static int testIterations = 1;
+    static int numberIssuers = 10;
     static int attributeVectorLength = 10;
 
     protected static void measureTime(String str) {
